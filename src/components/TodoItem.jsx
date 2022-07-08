@@ -8,16 +8,15 @@ const TodoItem = memo(function TodoItem(props) {
         text,
         complete
         },
-        toggleTodo,
-        removeTodo,
+        dispatch,
     } = props;
 
     const onChange = () => {
-        toggleTodo(id);
+        dispatch({type: 'toggle', payload: id});
     };
 
     const onRemove = () => {
-        removeTodo(id);
+        dispatch({type:'remove', payload: id});
     };
 
   return (
@@ -25,8 +24,8 @@ const TodoItem = memo(function TodoItem(props) {
         <div className='input-text'>
         <input 
             type="checkbox" 
-            onChange={onChange} c
-            hecked={complete}
+            onChange={onChange} 
+            checked={complete}
         />
         <label className={complete ? 'complete' : ''}>{ text }</label>
         </div>

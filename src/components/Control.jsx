@@ -4,7 +4,7 @@ import './Control.css';
 let idSeq = Date.now();
 
 const Control = memo(function Control(props) {
-    const { addTodo } = props;
+    const { dispatch } = props;
     const inputRef = useRef();
     const onSubmit = (e) => {
         e.preventDefault();
@@ -12,12 +12,15 @@ const Control = memo(function Control(props) {
         if(newText.length === 0) {
             return;
         }
-        addTodo({
-            id: ++idSeq,
+  
+        dispatch ({
+            type: 'add', 
+            payload: {
+                id: ++idSeq,
             text: newText,
             complete: false,
+            },
         });
-
         inputRef.current.value = '';
     };
   return (
