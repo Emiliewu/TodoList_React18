@@ -5,11 +5,13 @@ import {
     createSet,
     createToggle,
 } from './action';
+import reducer from './reducers';
 import Control from './Control';
 import Todo from './Todo';
 import './List.css';
 
 const LS_KEY = "_$todolist_";
+
 
 function bindActionCreators(actionCreators, dispatch) {
     const ret = {};
@@ -25,65 +27,73 @@ function bindActionCreators(actionCreators, dispatch) {
 
 function List() {
     const [todos, setTodos] = useState(JSON.parse(localStorage.getItem(LS_KEY) || '[]'));
-    console.log("initial todos");
+    const [count, setCount] = useState(0);
 
-   
-    // const addTodo = useCallback((todo) => {
-    //     setTodos(todos => [...todos, todo]);
-    // }, []);
+    // function reducer(state, action) {
+    //     const {type, payload} = action;
+    //     const { todos } = state;
 
-    // const removeTodo = useCallback((id) => {
-    //     setTodos(todos => todos.filter(todo => {
-    //         return todo.id !== id;
-    //     }));
-    // }, []);
-
-    // const toggleTodo = useCallback((id) => {
-    //     setTodos(todos => todos.map(todo => {
-    //         return todo.id === id
-    //             ? {
-    //                 ...todo,
-    //                 complete: !todo.complete,
-    //             }
-    //             : todo;
-    //     }));
-    // }, []);
-
+    //     switch(type) {
+    //         case 'set':
+    //             return {
+    //                 ...state,
+    //                 todos: payload,
+    //                 count: count + 1,
+    //             };
+    //         case 'add':
+    //             return {
+    //                 ...state,
+    //                 todos:  [...todos, payload],
+    //                 count: count + 1,
+    //             };
+    //         case 'remove':
+    //             return {
+    //                 ...state,
+    //                 todos: todos.filter(todo => {
+    //                     return todo.id !== payload;
+    //                 }),
+    //             };
+    //         case 'toggle':
+    //             return {
+    //                 ...state,
+    //                 todos: todos.map(todo => {
+    //                     return todo.id === payload
+    //                         ? {
+    //                             ...todo,
+    //                             complete: !todo.complete,
+    //                         }
+    //                         : todo;
+    //                 }),
+    //             };
+    //         default:
+    //     }
+    //     return state;
+    // }
+    
     const dispatch = useCallback((action) => {
-        const { type, payload } = action;
-        switch(type) {
-            case 'set':
-                setTodos(payload);
-                break;
-            case 'add':
-                setTodos(todos => [...todos, payload]);
-                break;
-            case 'remove':
-                setTodos(todos => todos.filter(todo => {
-                    return todo.id !== payload;
-                }));
-                break;
-            case 'toggle':
-                setTodos(todos => todos.map(todo => {
-                    return todo.id === payload
-                        ? {
-                            ...todo,
-                            complete: !todo.complete,
-                        }
-                        : todo;
-                }));
-                break;
-            default:
+        const state = {
+            todos,
+            count,
+        };
+        const setters = {
+            todos: setTodos,
+            count: setCount,
         }
-    }, []);
+        const newState = reducer(state, action);
+        console.log(newState);
+
+        for(let key in newState) {
+            setters[key](newState[key]);
+        }
+    }, [todos, count]);
 
 
 
     useEffect(() => {
-        const controller = new AbortController();
+        // const controller = new AbortController();
         localStorage.setItem(LS_KEY, JSON.stringify(todos));
         console.log("set todos to local storage");
-        return () => controller.abort(); 
+        // return () => controller.abort(); 
 
     }, [todos]);
 
