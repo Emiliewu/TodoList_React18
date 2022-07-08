@@ -1,8 +1,4 @@
 import { memo } from 'react';
-import {
-    createRemove,
-    createToggle,
-} from './action';
 import './TodoItem.css';
 
 
@@ -12,15 +8,16 @@ const TodoItem = memo(function TodoItem(props) {
         text,
         complete
         },
-        dispatch,
+        removeTodo,
+        toggleTodo,
     } = props;
 
     const onChange = () => {
-        dispatch(createToggle(id));
+       toggleTodo(id);
     };
 
     const onRemove = () => {
-        dispatch(createRemove(id));
+        removeTodo(id);
     };
 
   return (

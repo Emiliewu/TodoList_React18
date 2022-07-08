@@ -1,13 +1,10 @@
 import { memo, useRef } from 'react';
-import {
-    createAdd,
-} from './action';
 import './Control.css';
 
 let idSeq = Date.now();
 
 const Control = memo(function Control(props) {
-    const { dispatch } = props;
+    const { addTodo } = props;
     const inputRef = useRef();
     const onSubmit = (e) => {
         e.preventDefault();
@@ -16,11 +13,11 @@ const Control = memo(function Control(props) {
             return;
         }
   
-        dispatch (createAdd({
+        addTodo ({
             id: ++idSeq,
             text: newText,
             complete: false,
-        }));
+        });
         inputRef.current.value = '';
     };
   return (

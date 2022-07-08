@@ -11,6 +11,18 @@ import './List.css';
 
 const LS_KEY = "_$todolist_";
 
+function bindActionCreators(actionCreators, dispatch) {
+    const ret = {};
+    for(let key in actionCreators) {
+        ret[key] = function(...args) {
+            const actionCreator = actionCreators[key];
+            const action = actionCreator(...args);
+            dispatch(action);
+        };
+    }
+    return ret;
+}
+
 function List() {
     const [todos, setTodos] = useState(JSON.parse(localStorage.getItem(LS_KEY) || '[]'));
     console.log("initial todos");
@@ -80,8 +92,22 @@ function List() {
 
   return (
     <div className='todo-list'>
-    <Control dispatch={dispatch} />
-    <Todo dispatch={dispatch}  todos={todos}/>
+    <Control 
+    {
+        ...bindActionCreators({
+            addTodo: createAdd
+        }, dispatch)
+    }
+     />
+    <Todo 
+    {
+        ...bindActionCreators({
+            removeTodo: createRemove,
+            toggleTodo: createToggle,
+        }, dispatch)
+
+    }
+    todos={todos}/>
     </div>
   )
 }

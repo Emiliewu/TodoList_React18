@@ -4,7 +4,7 @@ import './Todo.css';
 
 
 const Todo = memo(function Todo(props) {
-    const {todos, dispatch} = props;
+    const {todos, removeTodo, toggleTodo} = props;
   return (
     <div className='todos'>
         <ul>
@@ -13,7 +13,8 @@ const Todo = memo(function Todo(props) {
                     return (<TodoItem 
                         key={todo.id}
                         todo={todo}
-                        dispatch={dispatch}
+                        removeTodo={removeTodo}
+                        toggleTodo={toggleTodo}
                         />)
                 })
             }
