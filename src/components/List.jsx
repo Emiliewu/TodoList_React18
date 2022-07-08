@@ -1,4 +1,10 @@
 import {useCallback, useState, useEffect} from 'react';
+import {
+    createAdd,
+    createRemove,
+    createSet,
+    createToggle,
+} from './action';
 import Control from './Control';
 import Todo from './Todo';
 import './List.css';
@@ -7,6 +13,8 @@ const LS_KEY = "_$todolist_";
 
 function List() {
     const [todos, setTodos] = useState(JSON.parse(localStorage.getItem(LS_KEY) || '[]'));
+    console.log("initial todos");
+
    
     // const addTodo = useCallback((todo) => {
     //     setTodos(todos => [...todos, todo]);
@@ -57,18 +65,13 @@ function List() {
         }
     }, []);
 
-    // useEffect(() => {
-    //     // const controller = new AbortController();
-    //     const todoslist = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
-    //     dispatch({type: 'set', payload: todos});
-    //     // return () => controller.abort(); 
 
-    // }, []);
 
     useEffect(() => {
-        // const controller = new AbortController();
+        const controller = new AbortController();
         localStorage.setItem(LS_KEY, JSON.stringify(todos));
-        // return () => controller.abort(); 
+        console.log("set todos to local storage");
+        return () => controller.abort(); 
 
     }, [todos]);
 

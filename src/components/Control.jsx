@@ -1,4 +1,7 @@
 import { memo, useRef } from 'react';
+import {
+    createAdd,
+} from './action';
 import './Control.css';
 
 let idSeq = Date.now();
@@ -13,14 +16,11 @@ const Control = memo(function Control(props) {
             return;
         }
   
-        dispatch ({
-            type: 'add', 
-            payload: {
-                id: ++idSeq,
+        dispatch (createAdd({
+            id: ++idSeq,
             text: newText,
             complete: false,
-            },
-        });
+        }));
         inputRef.current.value = '';
     };
   return (
