@@ -29,7 +29,7 @@ function List() {
     //     }));
     // }, []);
 
-    const dispatch = (action) => {
+    const dispatch = useCallback((action) => {
         const { type, payload } = action;
         switch(type) {
             case 'set':
@@ -55,7 +55,7 @@ function List() {
                 break;
             default:
         }
-    };
+    }, []);
 
     // useEffect(() => {
     //     // const controller = new AbortController();
