@@ -1,0 +1,33 @@
+.todo-item {
+    margin: 0;
+    padding: 10px;
+    list-style: none;
+    font-size: 24px;
+    display: flex;
+    align-items:center;
+    justify-content:space-between
+}
+
+todo-item.input-text {
+    display: block;
+}
+
+.todo-item.input-text input {
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: 0 20px;
+}
+
+.todo-item label.complete {
+    text-decoration: line-through;
+}
+
+.todo-item button {
+    border: 0;
+    outline: 0;
+    display: block;
+    text-align: 30px;
+    font-size: 30px;
+    color: #cc9a9a;
+}
