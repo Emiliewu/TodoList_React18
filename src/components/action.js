@@ -5,13 +5,19 @@ export function createSet(payload) {
     };
 }
 
-export function createAdd(payload) {
+let idSeq = Date.now();
+
+export function createAdd(text) {
     return (dispatch, state) => {
         const {todos} = state;
-        if(!todos.find(todo => todo.text === payload.text)){
+        if(!todos.find(todo => todo.text === text)){
             dispatch({
                 type: 'add',
-                payload,
+                payload: {
+                    id: ++idSeq,
+                    text,
+                    complete: false,
+                },
             })
         }
     };

@@ -1,8 +1,6 @@
 import { memo, useRef } from 'react';
 import './Control.css';
 
-let idSeq = Date.now();
-
 const Control = memo(function Control(props) {
     const { addTodo } = props;
     const inputRef = useRef();
@@ -13,11 +11,7 @@ const Control = memo(function Control(props) {
             return;
         }
   
-        addTodo ({
-            id: ++idSeq,
-            text: newText,
-            complete: false,
-        });
+        addTodo (newText);
         inputRef.current.value = '';
     };
   return (
