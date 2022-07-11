@@ -8,18 +8,21 @@ export function createSet(payload) {
 let idSeq = Date.now();
 
 export function createAdd(text) {
-    return (dispatch, state) => {
-        const {todos} = state;
-        if(!todos.find(todo => todo.text === text)){
-            dispatch({
-                type: 'add',
-                payload: {
-                    id: ++idSeq,
-                    text,
-                    complete: false,
-                },
-            })
-        }
+    return (dispatch, getState) => {
+        setTimeout(() => {
+            const {todos} = getState();
+            if(!todos.find(todo => todo.text === text)){
+                dispatch({
+                    type: 'add',
+                    payload: {
+                        id: ++idSeq,
+                        text,
+                        complete: false,
+                    },
+                });
+            }
+        }, 3000);
+       
     };
 }
 

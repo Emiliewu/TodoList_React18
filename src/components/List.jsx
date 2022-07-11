@@ -12,6 +12,10 @@ import './List.css';
 
 const LS_KEY = "_$todolist_";
 
+let storeState = {
+    todos: [],
+    count: 0,
+};
 
 function bindActionCreators(actionCreators, dispatch) {
     const ret = {};
@@ -29,72 +33,39 @@ function List() {
     const [todos, setTodos] = useState(JSON.parse(localStorage.getItem(LS_KEY) || '[]'));
     const [count, setCount] = useState(0);
 
-    // function reducer(state, action) {
-    //     const {type, payload} = action;
-    //     const { todos } = state;
-
-    //     switch(type) {
-    //         case 'set':
-    //             return {
-    //                 ...state,
-    //                 todos: payload,
-    //                 count: count + 1,
-    //             };
-    //         case 'add':
-    //             return {
-    //                 ...state,
-    //                 todos:  [...todos, payload],
-    //                 count: count + 1,
-    //             };
-    //         case 'remove':
-    //             return {
-    //                 ...state,
-    //                 todos: todos.filter(todo => {
-    //                     return todo.id !== payload;
-    //                 }),
-    //             };
-    //         case 'toggle':
-    //             return {
-    //                 ...state,
-    //                 todos: todos.map(todo => {
-    //                     return todo.id === payload
-    //                         ? {
-    //                             ...todo,
-    //                             complete: !todo.complete,
-    //                         }
-    //                         : todo;
-    //                 }),
-    //             };
-    //         default:
-    //     }
-    //     return state;
-    // }
-    
-    const dispatch = useCallback((action) => {
-        const state = {
+    useEffect(() => {
+        Object.assign(storeState, {
             todos,
             count,
-        };
+        });
+        console.log("todos", todos);
+    }, [todos, count]);
+
+    
+    
+    const dispatch = (action) => {
+      
         const setters = {
             todos: setTodos,
             count: setCount,
         }
         if('function' === typeof action){
-            action(dispatch, state);
+            action(dispatch, () => storeState);
             return;
         }
-        const newState = reducer(state, action);
+        const newState = reducer(storeState, action);
         console.log(newState);
 
         for(let key in newState) {
             setters[key](newState[key]);
         }
-    }, [todos, count]);
+    };
 
 
 
     useEffect(() => {
         // const controller = new AbortController();
+       
         localStorage.setItem(LS_KEY, JSON.stringify(todos));
         console.log("set todos to local storage");
         // return () => controller.abort(); 
