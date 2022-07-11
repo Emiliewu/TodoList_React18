@@ -6,9 +6,14 @@ export function createSet(payload) {
 }
 
 export function createAdd(payload) {
-    return {
-        type: 'add',
-        payload,
+    return (dispatch, state) => {
+        const {todos} = state;
+        if(!todos.find(todo => todo.text === payload.text)){
+            dispatch({
+                type: 'add',
+                payload,
+            })
+        }
     };
 }
 

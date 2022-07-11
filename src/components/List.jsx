@@ -79,6 +79,10 @@ function List() {
             todos: setTodos,
             count: setCount,
         }
+        if('function' === typeof action){
+            action(dispatch, state);
+            return;
+        }
         const newState = reducer(state, action);
         console.log(newState);
 
